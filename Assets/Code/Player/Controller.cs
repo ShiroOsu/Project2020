@@ -1,7 +1,7 @@
 ﻿namespace Project2020.Controller
 {
-    using UnityEngine;
     using Health;
+    using UnityEngine;
 
     public class Controller : MonoBehaviour, IHealth
     {
@@ -9,7 +9,7 @@
         {
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float foo)
         {
         }
 

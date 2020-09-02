@@ -28,10 +28,10 @@
 
         private bool m_IsOnGround = false;
 
-        private readonly int idleState = Animator.StringToHash("Base Layer.Idle");
+        //private readonly int idleState = Animator.StringToHash("Base Layer.Idle");
         private readonly int locomotionState = Animator.StringToHash("Base Layer.Locomotion");
         private readonly int jumpState = Animator.StringToHash("Base Layer.Jump");
-        private readonly int restState = Animator.StringToHash("Base Layer.Rest");
+        //private readonly int restState = Animator.StringToHash("Base Layer.Rest");
         private AnimatorStateInfo m_CurrentState;
 
         private void Awake()
@@ -49,10 +49,12 @@
             m_Collider = GetComponent<CapsuleCollider>();
             m_RigidBody = GetComponent<Rigidbody>();
             m_PlayerTransform = GetComponent<Transform>();
-            m_MovementSpeed = m_PlayerData.movementSpeed;
-            m_JumpHeight = m_PlayerData.jumpHeight;
+            
             m_OrgColliderHeight = m_Collider.height;
             m_OrgColliderCenterVector = m_Collider.center;
+            
+            m_MovementSpeed = m_PlayerData.movementSpeed;
+            m_JumpHeight = m_PlayerData.jumpHeight;
             m_BackwardSpeed = m_PlayerData.backwardSpeed;
             m_RotateSpeed = m_PlayerData.rotateSpeed;
         }
@@ -78,7 +80,8 @@
             m_Animator.SetFloat(m_StringData.direction, m_DirectionVector.x);
             m_Animator.SetFloat(m_StringData.speed, m_ForwardVector.z * m_MovementSpeed);
 
-            CancelJumpState();
+            if (m_CurrentState.fullPathHash == jumpState && !m_Animator.IsInTransition(0))
+                CancelJumpState();
         }
 
         private void HandleInputs()
@@ -144,9 +147,6 @@
 
         private void CancelJumpState()
         {
-            if (m_CurrentState.fullPathHash != jumpState || m_Animator.IsInTransition(0))
-                return;
-
             float jumpHeight = m_Animator.GetFloat(m_StringData.jumpHeight);
             float curvesHeight = 0.5f;
 
