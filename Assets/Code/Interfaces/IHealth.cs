@@ -1,4 +1,4 @@
-﻿namespace Project2020.Health
+﻿namespace Project2020
 {
     public interface IHealth
     {

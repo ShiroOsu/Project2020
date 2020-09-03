@@ -1,4 +1,4 @@
-﻿namespace Project2020.Data
+﻿namespace Project2020
 {
     using System;
     using UnityEngine;

@@ -1,6 +1,5 @@
-﻿namespace Project2020.Movement
+﻿namespace Project2020
 {
-    using Data;
     using UnityEngine;
 
     [RequireComponent(typeof(Animator))]

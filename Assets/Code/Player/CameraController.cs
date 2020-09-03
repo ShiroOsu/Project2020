@@ -1,7 +1,6 @@
-﻿namespace Project2020.Camera
+﻿namespace Project2020
 {
     using UnityEngine;
-    using Data;
 
     [RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour
