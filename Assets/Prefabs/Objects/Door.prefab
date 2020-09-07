@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1434320483462669661}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,6 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 8861978885142216351}
+  m_Player: {fileID: 0}
 --- !u!95 &8861978885142216351
 Animator:
   serializedVersion: 3

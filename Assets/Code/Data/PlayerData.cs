@@ -3,10 +3,11 @@
     using System;
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerData")]
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData")]
     public class PlayerData : ScriptableObject, ISerializationCallbackReceiver
     {
         [Header("Properties")]
+        public LayerMask groundLayer;
         public float health;
         public float attackDamage;
         [NonSerialized] public float runTimeHealth;

@@ -7,7 +7,6 @@
     [RequireComponent(typeof(Rigidbody))]
     public class Movement : MonoBehaviour
     {
-        [SerializeField] private LayerMask m_GroundLayer = 0;
         [SerializeField] private PlayerData m_PlayerData = null;
         [SerializeField] private Strings m_StringData = null;
         [SerializeField] private Animator m_Animator = null;
@@ -79,6 +78,7 @@
             m_Animator.SetFloat(m_StringData.direction, m_DirectionVector.x);
             m_Animator.SetFloat(m_StringData.speed, m_ForwardVector.z * m_MovementSpeed);
 
+            // When jumping adjust the collider and set jump boolean to false
             if (m_CurrentState.fullPathHash == jumpState && !m_Animator.IsInTransition(0))
                 CancelJumpState();
         }
@@ -132,7 +132,7 @@
         private bool GroundCheck()
         {
             return m_IsOnGround = Physics.BoxCast(m_PlayerTransform.position + (new Vector3(0f, 1.5f, 0f)), m_BoxExtents,
-                Vector3.down, Quaternion.identity, 1f, m_GroundLayer);
+                Vector3.down, Quaternion.identity, 1f, m_PlayerData.groundLayer);
         }
 
         private void Jump()

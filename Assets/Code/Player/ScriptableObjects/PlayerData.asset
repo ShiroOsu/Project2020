@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98cd34c6399712a46bd8e12daf570f63, type: 3}
-  m_Name: Data
+  m_Name: PlayerData
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   health: 0
   attackDamage: 0
-  movementSpeed: 5
+  movementSpeed: 4
   rotateSpeed: 2
   backwardSpeed: 2
-  jumpHeight: 6
+  jumpHeight: 5

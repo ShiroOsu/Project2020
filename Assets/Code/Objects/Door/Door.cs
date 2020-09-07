@@ -6,6 +6,7 @@
     public class Door : MonoBehaviour, IInteractable
     {
         [SerializeField] private Animator m_Animator = null;
+        [SerializeField] private GameObject m_Player = null;
 
         // Depending from which direction you open the door
         // change animation
@@ -20,7 +21,6 @@
         private void Close()
         {
             m_Animator.SetBool("Open", false);
-            Debug.Log("Closing Called");
         }
 
         private IEnumerator Closing(float time)
@@ -33,6 +33,11 @@
         {
             if (m_Animator.IsInTransition(0))
                 return;
+
+            if (m_Player)
+            {
+                Debug.Log(m_Player.transform.forward.z);
+            }
 
             Open();
             StartCoroutine(Closing(3f));
