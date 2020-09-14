@@ -1,4 +1,4 @@
-﻿namespace Project2020
+﻿namespace PlayerControls
 {
     using System;
     using UnityEngine;
@@ -6,7 +6,7 @@
     [CreateAssetMenu(fileName = "PlayerData", menuName = "ScriptableObjects/PlayerData")]
     public class PlayerData : ScriptableObject, ISerializationCallbackReceiver
     {
-        [Header("Properties")]
+        [Header("Properties")] // temp
         public LayerMask groundLayer;
         public float health;
         public float attackDamage;

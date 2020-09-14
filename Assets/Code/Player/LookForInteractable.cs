@@ -1,14 +1,19 @@
-﻿namespace Project2020
+﻿#undef DRAWGIZMOS
+
+namespace PlayerControls
 {
     using UnityEngine;
 
     public class LookForInteractable : MonoBehaviour
     {
         [SerializeField] private InteractableData m_IData = null;
+
+        //[SerializeField] private GameObject m_InteractionText = null;
         private LayerMask m_InteractableLayer;
 
-        //private Vector3 point1 = new Vector3(0f, 1f, 0.3f);
-        //private Vector3 point2 = new Vector3(0f, 0f, 0.3f);
+        private Vector3 m_Point1;
+        private Vector3 m_Point2;
+        private readonly Vector3 m_PointOffset = new Vector3(0f, 1f, 0f);
 
         private void Awake()
         {
@@ -25,6 +30,11 @@
             if (IsThereNearbyInteractable())
             {
                 SweepForInteraction();
+            }
+            else
+            {
+                // Temp
+                ShowInteractionOnUI(false);
             }
         }
 
@@ -44,34 +54,50 @@
 
         private void SweepForInteraction()
         {
-            var interactables = Physics.CapsuleCastAll(transform.position, transform.position, 0.3f, Vector3.down, 1f, m_InteractableLayer);
+            UpdateCapsulePoints();
+
+            var interactables = Physics.CapsuleCastAll(m_Point1, m_Point2, 0.6f, Vector3.down, 1f, m_InteractableLayer);
 
             foreach (var hit in interactables)
             {
                 var interactable = hit.transform.gameObject.GetComponent(typeof(IInteractable));
 
-                if (!interactable)
-                    return;
+                if (interactable)
+                {
+                    // Move this to interact object
+                    ShowInteractionOnUI(true);
+                }
 
-                var toInteract = interactable as IInteractable;
+                var interactObj = interactable as IInteractable;
 
-                // Show on UI open/F/interact/something
+                Debug.Log(interactObj);
+
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    toInteract.Interact();
+                    interactObj.Interact();
                 }
             }
         }
 
+        private void UpdateCapsulePoints()
+        {
+            m_Point1 = transform.position + transform.forward;
+            m_Point2 = transform.position + m_PointOffset + transform.forward;
+        }
+
+        private void ShowInteractionOnUI(bool active)
+        {
+            //m_InteractionText.SetActive(active);
+        }
+
         private void OnDrawGizmos()
         {
-            // Testing for correct CapsuleCasting
-
             var center = transform.position;
+            var radius = 0.4f;
 
-            Gizmos.DrawWireSphere(center + transform.forward, 0.4f);
-
-            Gizmos.DrawWireSphere(center + (new Vector3(0f, 1f, 0f)) + transform.forward, 0.4f);
+            //Testing for CapsuleCasting
+            Gizmos.DrawWireSphere(center + transform.forward, radius);
+            Gizmos.DrawWireSphere(center + (new Vector3(0f, 1f, 0f)) + transform.forward, radius);
         }
     }
 }

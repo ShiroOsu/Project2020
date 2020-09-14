@@ -1,4 +1,4 @@
-﻿namespace Project2020
+﻿namespace PlayerControls
 {
     using UnityEngine;
 
@@ -12,11 +12,11 @@
 
         private float m_CameraSpeed;
 
-        // Camera restraints 
+        // Camera restraints
 
         private void Awake()
         {
-            m_CameraSpeed = m_CameraOptions.cameraSpeed;    
+            m_CameraSpeed = m_CameraOptions.cameraSpeed;
         }
 
         private void LateUpdate()
@@ -29,21 +29,21 @@
         private void UpdateCamera()
         {
             // Free look camera if mouse button held down
-            if (Input.GetMouseButton(0))
-            {
-                m_CameraBoom.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * m_CameraSpeed, Vector3.up);
-                m_PlayerCamera.transform.rotation *= Quaternion.AngleAxis(-Input.GetAxis("Mouse Y") * m_CameraSpeed, Vector3.right);
-            }
-            else
-            {
-                // Free look camera was released
-                if (Input.GetMouseButtonUp(0))
-                {
-                    // Options
-                    // if (Never adjust): do not change camera angle
-                    // else (Auto): Lerp camera angle to forward of character
-                }
-            }
+            //if (Input.GetMouseButton(0))
+            //{
+            //    m_CameraBoom.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * m_CameraSpeed, Vector3.up);
+            //    m_PlayerCamera.transform.rotation *= Quaternion.AngleAxis(-Input.GetAxis("Mouse Y") * m_CameraSpeed, Vector3.right);
+            //}
+            //else
+            //{
+            //    // Free look camera was released
+            //    if (Input.GetMouseButtonUp(0))
+            //    {
+            //        // Options
+            //        // if (Never adjust): do not change camera angle
+            //        // else (Auto): Lerp camera angle to forward of character
+            //    }
+            //}
 
             m_PlayerCamera.transform.position = m_CameraBoom.position - new Vector3(0f, -2f, 3f);
         }
