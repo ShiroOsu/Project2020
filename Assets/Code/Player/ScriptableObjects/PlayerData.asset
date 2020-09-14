@@ -20,4 +20,4 @@ MonoBehaviour:
   movementSpeed: 4
   rotateSpeed: 2
   backwardSpeed: 2
-  jumpHeight: 5
+  jumpHeight: 4

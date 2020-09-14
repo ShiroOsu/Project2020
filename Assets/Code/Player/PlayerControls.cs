@@ -27,6 +27,22 @@ namespace Project2020
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Running"",
+                    ""type"": ""Button"",
+                    ""id"": ""aff0e870-93bb-4d47-97de-5af4d736100a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa0180fc-0d9e-4756-aad5-76d973779ad4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -84,6 +100,28 @@ namespace Project2020
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee1c6973-5e1f-4adc-9a8a-933144478ea6"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Running"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9530284e-94b1-40a0-b832-7593479b5831"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -93,6 +131,8 @@ namespace Project2020
             // Gameplay
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
             m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
+            m_Gameplay_Running = m_Gameplay.FindAction("Running", throwIfNotFound: true);
+            m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -143,11 +183,15 @@ namespace Project2020
         private readonly InputActionMap m_Gameplay;
         private IGameplayActions m_GameplayActionsCallbackInterface;
         private readonly InputAction m_Gameplay_Movement;
+        private readonly InputAction m_Gameplay_Running;
+        private readonly InputAction m_Gameplay_Jump;
         public struct GameplayActions
         {
             private @PlayerControls m_Wrapper;
             public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
+            public InputAction @Running => m_Wrapper.m_Gameplay_Running;
+            public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -160,6 +204,12 @@ namespace Project2020
                     @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                     @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                     @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                    @Running.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunning;
+                    @Running.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunning;
+                    @Running.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRunning;
+                    @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                    @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                    @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 }
                 m_Wrapper.m_GameplayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -167,6 +217,12 @@ namespace Project2020
                     @Movement.started += instance.OnMovement;
                     @Movement.performed += instance.OnMovement;
                     @Movement.canceled += instance.OnMovement;
+                    @Running.started += instance.OnRunning;
+                    @Running.performed += instance.OnRunning;
+                    @Running.canceled += instance.OnRunning;
+                    @Jump.started += instance.OnJump;
+                    @Jump.performed += instance.OnJump;
+                    @Jump.canceled += instance.OnJump;
                 }
             }
         }
@@ -174,6 +230,8 @@ namespace Project2020
         public interface IGameplayActions
         {
             void OnMovement(InputAction.CallbackContext context);
+            void OnRunning(InputAction.CallbackContext context);
+            void OnJump(InputAction.CallbackContext context);
         }
     }
 }

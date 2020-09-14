@@ -72,10 +72,10 @@ namespace Project2020
 
                 Debug.Log(interactObj);
 
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    interactObj.Interact();
-                }
+                //if (Input.GetKeyDown(KeyCode.F))
+                //{
+                //    interactObj.Interact();
+                //}
             }
         }
 
