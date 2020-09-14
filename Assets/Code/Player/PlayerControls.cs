@@ -1,17 +1,16 @@
-namespace PlayerControl
+// GENERATED AUTOMATICALLY FROM 'Assets/InputMapping/Player/PlayerControls.inputactions'
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
+
+namespace Project2020
 {
-    // GENERATED AUTOMATICALLY FROM 'Assets/InputMapping/Player/PlayerControls.inputactions'
-
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Utilities;
-
     public class @PlayerControls : IInputActionCollection, IDisposable
     {
         public InputActionAsset asset { get; }
-
         public @PlayerControls()
         {
             asset = InputActionAsset.FromJson(@"{
@@ -142,43 +141,18 @@ namespace PlayerControl
 
         // Gameplay
         private readonly InputActionMap m_Gameplay;
-
         private IGameplayActions m_GameplayActionsCallbackInterface;
         private readonly InputAction m_Gameplay_Movement;
-
         public struct GameplayActions
         {
             private @PlayerControls m_Wrapper;
-
-            public GameplayActions(@PlayerControls wrapper)
-            {
-                m_Wrapper = wrapper;
-            }
-
+            public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
-
-            public InputActionMap Get()
-            {
-                return m_Wrapper.m_Gameplay;
-            }
-
-            public void Enable()
-            {
-                Get().Enable();
-            }
-
-            public void Disable()
-            {
-                Get().Disable();
-            }
-
+            public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-
-            public static implicit operator InputActionMap(GameplayActions set)
-            {
-                return set.Get();
-            }
-
+            public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
             public void SetCallbacks(IGameplayActions instance)
             {
                 if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
@@ -196,9 +170,7 @@ namespace PlayerControl
                 }
             }
         }
-
         public GameplayActions @Gameplay => new GameplayActions(this);
-
         public interface IGameplayActions
         {
             void OnMovement(InputAction.CallbackContext context);

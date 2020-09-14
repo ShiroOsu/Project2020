@@ -1,4 +1,4 @@
-﻿namespace PlayerControls
+﻿namespace Project2020
 {
     using System.Collections;
     using UnityEngine;

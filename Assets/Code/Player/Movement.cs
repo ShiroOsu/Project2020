@@ -1,18 +1,18 @@
-﻿namespace PlayerControls
+﻿namespace Project2020
 {
     using UnityEngine;
     using UnityEngine.InputSystem;
-    using PlayerControl;
 
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(CapsuleCollider))]
     [RequireComponent(typeof(Rigidbody))]
-    public class Movement : MonoBehaviour, PlayerControls.IGameplayActions
+    public class Movement : MonoBehaviour
     {
         [SerializeField] private PlayerData m_PlayerData = null;
         [SerializeField] private Strings m_StringData = null;
         [SerializeField] private Animator m_Animator = null;
-        public PlayerControls m_PlayerControls = null;
+        private PlayerControls m_PlayerControls;
+        private InputAction movement;
         //private InputAction m_Movement;
 
         private float m_MovementSpeed;

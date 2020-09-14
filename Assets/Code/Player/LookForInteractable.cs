@@ -1,6 +1,6 @@
 ﻿#undef DRAWGIZMOS
 
-namespace PlayerControls
+namespace Project2020
 {
     using UnityEngine;
 

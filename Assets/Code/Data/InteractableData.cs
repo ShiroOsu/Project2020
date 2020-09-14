@@ -1,7 +1,11 @@
-﻿using UnityEngine;
-
-[CreateAssetMenu(fileName = "InteractableData", menuName = "ScriptableObjects/InteractableData")]
-public class InteractableData : ScriptableObject
+﻿namespace Project2020
 {
-    public LayerMask interactLayer;
+
+    using UnityEngine;
+
+    [CreateAssetMenu(fileName = "InteractableData", menuName = "ScriptableObjects/InteractableData")]
+    public class InteractableData : ScriptableObject
+    {
+        public LayerMask interactLayer;
+    }
 }
