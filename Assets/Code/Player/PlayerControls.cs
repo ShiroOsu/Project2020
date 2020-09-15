@@ -1,4 +1,3 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/InputMapping/Player/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -124,6 +123,33 @@ namespace Project2020
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Interaction"",
+            ""id"": ""305c613c-5be3-4516-afb7-407341755789"",
+            ""actions"": [
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c788f11-e8e4-44f5-b523-4a3555ec683f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""562ca9cd-73c5-4ae0-9491-98db627138e2"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -133,6 +159,9 @@ namespace Project2020
             m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
             m_Gameplay_Running = m_Gameplay.FindAction("Running", throwIfNotFound: true);
             m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+            // Interaction
+            m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
+            m_Interaction_Interact = m_Interaction.FindAction("Interact", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -227,11 +256,48 @@ namespace Project2020
             }
         }
         public GameplayActions @Gameplay => new GameplayActions(this);
+
+        // Interaction
+        private readonly InputActionMap m_Interaction;
+        private IInteractionActions m_InteractionActionsCallbackInterface;
+        private readonly InputAction m_Interaction_Interact;
+        public struct InteractionActions
+        {
+            private @PlayerControls m_Wrapper;
+            public InteractionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Interact => m_Wrapper.m_Interaction_Interact;
+            public InputActionMap Get() { return m_Wrapper.m_Interaction; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(InteractionActions set) { return set.Get(); }
+            public void SetCallbacks(IInteractionActions instance)
+            {
+                if (m_Wrapper.m_InteractionActionsCallbackInterface != null)
+                {
+                    @Interact.started -= m_Wrapper.m_InteractionActionsCallbackInterface.OnInteract;
+                    @Interact.performed -= m_Wrapper.m_InteractionActionsCallbackInterface.OnInteract;
+                    @Interact.canceled -= m_Wrapper.m_InteractionActionsCallbackInterface.OnInteract;
+                }
+                m_Wrapper.m_InteractionActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Interact.started += instance.OnInteract;
+                    @Interact.performed += instance.OnInteract;
+                    @Interact.canceled += instance.OnInteract;
+                }
+            }
+        }
+        public InteractionActions @Interaction => new InteractionActions(this);
         public interface IGameplayActions
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnRunning(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+        }
+        public interface IInteractionActions
+        {
+            void OnInteract(InputAction.CallbackContext context);
         }
     }
 }

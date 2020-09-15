@@ -3,10 +3,13 @@
 namespace Project2020
 {
     using UnityEngine;
+    using UnityEngine.InputSystem;
 
-    public class LookForInteractable : MonoBehaviour
+    public class LookForInteractable : MonoBehaviour, PlayerControls.IInteractionActions
     {
         [SerializeField] private InteractableData m_IData = null;
+        private PlayerControls m_PlayerControls;
+        private IInteractable m_Interactable;
 
         //[SerializeField] private GameObject m_InteractionText = null;
         private LayerMask m_InteractableLayer;
@@ -17,6 +20,9 @@ namespace Project2020
 
         private void Awake()
         {
+            m_PlayerControls = new PlayerControls();
+            m_PlayerControls.Interaction.SetCallbacks(this);
+
             if (!m_IData)
             {
                 m_IData = ScriptableObject.CreateInstance<InteractableData>();
@@ -25,16 +31,21 @@ namespace Project2020
             m_InteractableLayer = m_IData.interactLayer;
         }
 
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            var obj = SweepForInteraction();
+            
+            if (obj == null)
+                return;
+
+            obj.Interact();
+        }
+
         private void Update()
         {
             if (IsThereNearbyInteractable())
             {
                 SweepForInteraction();
-            }
-            else
-            {
-                // Temp
-                ShowInteractionOnUI(false);
             }
         }
 
@@ -52,7 +63,8 @@ namespace Project2020
             return false;
         }
 
-        private void SweepForInteraction()
+        // make it return the interactable object
+        private IInteractable SweepForInteraction()
         {
             UpdateCapsulePoints();
 
@@ -60,23 +72,9 @@ namespace Project2020
 
             foreach (var hit in interactables)
             {
-                var interactable = hit.transform.gameObject.GetComponent(typeof(IInteractable));
-
-                if (interactable)
-                {
-                    // Move this to interact object
-                    ShowInteractionOnUI(true);
-                }
-
-                var interactObj = interactable as IInteractable;
-
-                Debug.Log(interactObj);
-
-                //if (Input.GetKeyDown(KeyCode.F))
-                //{
-                //    interactObj.Interact();
-                //}
+                return m_Interactable = hit.transform.gameObject.GetComponent(typeof(IInteractable)) as IInteractable;
             }
+            return null;
         }
 
         private void UpdateCapsulePoints()
@@ -85,9 +83,14 @@ namespace Project2020
             m_Point2 = transform.position + m_PointOffset + transform.forward;
         }
 
-        private void ShowInteractionOnUI(bool active)
+        private void OnEnable()
         {
-            //m_InteractionText.SetActive(active);
+            m_PlayerControls.Enable();
+        }
+
+        private void OnDisable()
+        {
+            m_PlayerControls.Disable();
         }
 
         private void OnDrawGizmos()
