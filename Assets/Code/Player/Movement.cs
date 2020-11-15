@@ -32,9 +32,7 @@
 
         //private readonly int idleState = Animator.StringToHash("Base Layer.Idle");
         private readonly int locomotionState = Animator.StringToHash("Base Layer.Locomotion");
-
         private readonly int jumpState = Animator.StringToHash("Base Layer.Jump");
-
         //private readonly int restState = Animator.StringToHash("Base Layer.Rest");
         private AnimatorStateInfo m_CurrentState;
 
@@ -130,7 +128,7 @@
             m_Animator.SetFloat(m_StringData.direction, m_DirectionVector.x);
             m_Animator.SetFloat(m_StringData.speed, m_ForwardVector.z * m_MovementSpeed);
 
-            // When jumping adjust the collider and set jump boolean to false
+            // When jumping adjust the collider and set jump boolean to false (hard random)
             if (m_CurrentState.fullPathHash == jumpState && !m_Animator.IsInTransition(0))
                 CancelJumpState();
         }

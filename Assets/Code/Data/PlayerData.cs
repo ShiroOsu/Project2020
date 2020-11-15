@@ -21,9 +21,6 @@
         //public bool canJump;
         public float jumpHeight;
 
-        public string Horizontal => "Horizontal";
-        public string Vertical => "Vertical";
-
         // During game time the health of the player data will be "runTimeHealth"
         // To prevent any overrides to the initial health the player start with.
         public void OnAfterDeserialize()

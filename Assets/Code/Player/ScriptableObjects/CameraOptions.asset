@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34236179150761f4e8fcd637f185046d, type: 3}
   m_Name: CameraOptions
   m_EditorClassIdentifier: 
-  cameraSpeed: 1
+  cameraSpeed: 0.1
   _auto: 0
   neverAdjust: 1

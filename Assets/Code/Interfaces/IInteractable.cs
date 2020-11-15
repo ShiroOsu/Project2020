@@ -3,5 +3,6 @@
     public interface IInteractable
     {
         void Interact();
+        bool IsInAnimation();
     }
 }

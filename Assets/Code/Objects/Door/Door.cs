@@ -17,16 +17,30 @@
         {
             m_Animator.SetBool("Open", true);
         }
-
         private void Close()
         {
             m_Animator.SetBool("Open", false);
         }
-
         private IEnumerator Closing(float time)
         {
             yield return new WaitForSeconds(time);
             Close();
+        }
+
+        private void OpenBackwards()
+        {
+            m_Animator.SetBool("OpenBackwards", true);
+        }
+
+        private void CloseBackwards()
+        {
+            m_Animator.SetBool("OpenBackwards", false);
+        }
+
+        private IEnumerator ClosingBackwards(float time)
+        {
+            yield return new WaitForSeconds(time);
+            CloseBackwards();
         }
 
         public void Interact()
@@ -36,11 +50,22 @@
 
             if (m_Player)
             {
-                Debug.Log(m_Player.transform.forward.z);
+                if (m_Player.transform.forward.z < 0f)
+                {
+                    OpenBackwards();
+                    StartCoroutine(ClosingBackwards(3f));
+                }
+                else
+                {
+                    Open();
+                    StartCoroutine(Closing(3f));
+                }
             }
+        }
 
-            Open();
-            StartCoroutine(Closing(3f));
+        public bool IsInAnimation()
+        {
+            return m_Animator.IsInTransition(0);
         }
     }
 }

@@ -8,10 +8,9 @@ namespace Project2020
     public class LookForInteractable : MonoBehaviour, PlayerControls.IInteractionActions
     {
         [SerializeField] private InteractableData m_IData = null;
+        [SerializeField] private GameObject m_InteractableText = null;
         private PlayerControls m_PlayerControls;
         private IInteractable m_Interactable;
-
-        //[SerializeField] private GameObject m_InteractionText = null;
         private LayerMask m_InteractableLayer;
 
         private Vector3 m_Point1;
@@ -33,12 +32,15 @@ namespace Project2020
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            var obj = SweepForInteraction();
-            
-            if (obj == null)
+            if (m_Interactable == null)
                 return;
 
-            obj.Interact();
+            m_Interactable.Interact();
+            
+            if (!m_Interactable.IsInAnimation())
+            {
+                m_InteractableText.SetActive(false);
+            }
         }
 
         private void Update()
@@ -46,7 +48,7 @@ namespace Project2020
             if (IsThereNearbyInteractable())
             {
                 SweepForInteraction();
-            }
+            } else { m_InteractableText.SetActive(false); }
         }
 
         private bool IsThereNearbyInteractable()
@@ -63,7 +65,6 @@ namespace Project2020
             return false;
         }
 
-        // make it return the interactable object
         private IInteractable SweepForInteraction()
         {
             UpdateCapsulePoints();
@@ -72,6 +73,13 @@ namespace Project2020
 
             foreach (var hit in interactables)
             {
+                if (m_Interactable != null)
+                { 
+                    // only active while close to object, and remove it after interaction
+                    // so only set it to true once 
+                    m_InteractableText.SetActive(true);
+                }
+
                 return m_Interactable = hit.transform.gameObject.GetComponent(typeof(IInteractable)) as IInteractable;
             }
             return null;

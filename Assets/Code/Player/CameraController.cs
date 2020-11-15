@@ -1,22 +1,49 @@
 ﻿namespace Project2020
 {
     using UnityEngine;
+    using UnityEngine.InputSystem;
 
     [RequireComponent(typeof(Camera))]
-    public class CameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour, PlayerControls.ICameraControlsActions
     {
         [SerializeField] private GameObject m_Player = null;
         [SerializeField] private Camera m_PlayerCamera = null;
         [SerializeField] private Transform m_CameraBoom = null;
         [SerializeField] private CameraOptions m_CameraOptions = null;
+        private PlayerControls m_CameraController = null;
 
         private float m_CameraSpeed;
+        private Quaternion m_CameraRotation;
 
-        // Camera restraints
+        public void OnCamera(InputAction.CallbackContext context)
+        {
+            var vector2 = context.ReadValue<Vector2>().normalized;
+            var mouseX = vector2.x * m_CameraSpeed;
+            var mouseY = vector2.y * m_CameraSpeed;
+            
+            m_CameraRotation.x += mouseY;
+            m_CameraRotation.y += mouseX;
+
+            m_CameraBoom.rotation = Quaternion.Euler(m_CameraRotation.x, m_CameraRotation.y, m_CameraRotation.z);
+        }
 
         private void Awake()
         {
+            m_CameraController = new PlayerControls();
+            m_CameraController.CameraControls.SetCallbacks(this);
+
             m_CameraSpeed = m_CameraOptions.cameraSpeed;
+            m_CameraRotation = m_CameraBoom.transform.localRotation;
+        }
+
+        private void OnEnable()
+        {
+            m_CameraController.Enable();
+        }
+
+        private void OnDisable()
+        {
+            m_CameraController.Disable();
         }
 
         private void LateUpdate()
@@ -44,8 +71,6 @@
             //        // else (Auto): Lerp camera angle to forward of character
             //    }
             //}
-
-            m_PlayerCamera.transform.position = m_CameraBoom.position - new Vector3(0f, -2f, 3f);
         }
     }
 }

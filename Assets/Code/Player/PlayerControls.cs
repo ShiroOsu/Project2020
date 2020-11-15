@@ -1,3 +1,4 @@
+// GENERATED AUTOMATICALLY FROM 'Assets/InputMapping/Player/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -150,6 +151,33 @@ namespace Project2020
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CameraControls"",
+            ""id"": ""08547371-bfb8-4c7d-908f-d5f1ed76fdd2"",
+            ""actions"": [
+                {
+                    ""name"": ""Camera"",
+                    ""type"": ""Value"",
+                    ""id"": ""3ea79b35-3b1e-4091-bf7a-330459dfcf62"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0b9de28d-de65-430b-b505-996f38a143ed"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -162,6 +190,9 @@ namespace Project2020
             // Interaction
             m_Interaction = asset.FindActionMap("Interaction", throwIfNotFound: true);
             m_Interaction_Interact = m_Interaction.FindAction("Interact", throwIfNotFound: true);
+            // CameraControls
+            m_CameraControls = asset.FindActionMap("CameraControls", throwIfNotFound: true);
+            m_CameraControls_Camera = m_CameraControls.FindAction("Camera", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -289,6 +320,39 @@ namespace Project2020
             }
         }
         public InteractionActions @Interaction => new InteractionActions(this);
+
+        // CameraControls
+        private readonly InputActionMap m_CameraControls;
+        private ICameraControlsActions m_CameraControlsActionsCallbackInterface;
+        private readonly InputAction m_CameraControls_Camera;
+        public struct CameraControlsActions
+        {
+            private @PlayerControls m_Wrapper;
+            public CameraControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Camera => m_Wrapper.m_CameraControls_Camera;
+            public InputActionMap Get() { return m_Wrapper.m_CameraControls; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(CameraControlsActions set) { return set.Get(); }
+            public void SetCallbacks(ICameraControlsActions instance)
+            {
+                if (m_Wrapper.m_CameraControlsActionsCallbackInterface != null)
+                {
+                    @Camera.started -= m_Wrapper.m_CameraControlsActionsCallbackInterface.OnCamera;
+                    @Camera.performed -= m_Wrapper.m_CameraControlsActionsCallbackInterface.OnCamera;
+                    @Camera.canceled -= m_Wrapper.m_CameraControlsActionsCallbackInterface.OnCamera;
+                }
+                m_Wrapper.m_CameraControlsActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Camera.started += instance.OnCamera;
+                    @Camera.performed += instance.OnCamera;
+                    @Camera.canceled += instance.OnCamera;
+                }
+            }
+        }
+        public CameraControlsActions @CameraControls => new CameraControlsActions(this);
         public interface IGameplayActions
         {
             void OnMovement(InputAction.CallbackContext context);
@@ -298,6 +362,10 @@ namespace Project2020
         public interface IInteractionActions
         {
             void OnInteract(InputAction.CallbackContext context);
+        }
+        public interface ICameraControlsActions
+        {
+            void OnCamera(InputAction.CallbackContext context);
         }
     }
 }

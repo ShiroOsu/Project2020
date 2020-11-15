@@ -7,9 +7,8 @@
     {
         public string direction = "Direction";
         public string speed = "Speed";
-        public string horizontal = "Horizontal";
-        public string vertical = "Vertical";
         public string jump = "Jump";
-        public string jumpHeight = "JumpHeight";
+        public string jumpHeight = "Jump Height";
+        public string gravityControl = "Gravity Control";
     }
 }
